@@ -1,0 +1,33 @@
+#<TS>
+module net.protovos {
+
+${PROTO_CONST}
+
+${PROTO_FUNC}
+
+${PROTO_INTERFACE}
+
+}
+#END
+
+#<PROTO_CONST>
+    export const ${PROTOVO_NAME}_NAME: string = "${PROTOVO_NAME}";
+#END
+
+#<PROTO_FUNC>
+    export function carte${PROTOVO_NAME}(): ${PROTOVO_NAME} {
+        //return Message.lokkup(${PROTOVO_NAME}_NAME);
+        return <any>null;
+    }
+#END
+
+#<PROTO_INTERFACE>
+    export interface ${PROTOVO_NAME} {
+        ${PROTO_PARAM}
+    }
+#END
+
+#<PROTO_PARAM>
+        /** ${HELP} */
+        ${PARAM_NAME}: ${PARAM_TYPE};
+#END

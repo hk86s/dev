@@ -1,0 +1,123 @@
+package com.gameabc.bfc.model.bto.ims;
+
+option java_package = "com.gameabc.bfc.model.bto.ims";
+option java_outer_classname = "ImsProto";
+
+message ImsVO  {
+   optional int64 id = 1;
+   optional string title = 2;//标题
+   optional string context = 3;//内容
+   optional int64 formatId =4;//格式化ID
+   optional int64 createTime=5;
+   optional int32 flag=6;//是否已读
+   optional int32 type=7;//邮件类型
+}package com.gameabc.bfc.model.bto;
+
+option java_package = "com.gameabc.bfc.model.bto";
+option java_outer_classname = "TableProto";
+message TableVO  {  
+  optional int32 tableId = 1;//桌子的ID
+  optional int32 tableStatus = 2;//桌子状态  
+  optional PlayerVO playerVO = 3;// 玩家信息
+  optional RetainInfoVO retainInfoVO = 4;// 留桌信息
+}
+
+message RetainInfoVO  {
+    optional string userId = 1;//账号
+	optional string userName = 2;//名字
+	optional int64 endTime = 3;//结束时间
+	optional int32 isOutline = 4;// 是否掉线
+	optional int32 gameId = 5;// 游戏id
+	optional int32 roomType = 6;// 房间类型
+	optional int32 tableId = 7;//  桌子Id
+}
+
+message PlayerVO  {
+	optional string userId = 1; // 账号
+	optional string userName = 2; // 名字
+	optional string headerUri = 3; // 头像id
+	optional int64 credit = 4; // 带入
+	optional int32 gameStatus = 5;//free 1坐下 2 举手 3开始游戏
+	optional int32 isOutline = 6;// 是否掉线
+	optional int32 currRoomType = 7;// 当前房间类型
+}
+
+message CardVO  {
+	optional int32 type = 1; // 类型
+	optional int32 num = 2; // 值
+	optional int32 held = 3; // 保留标志 0: 无保留标志,1:有保留标志
+}
+
+message GameBigWinRecordVO {
+	optional string userId = 1; // 账号
+	optional string userName = 2; // 名字
+	optional string headerUri = 3; // 头像id
+	optional int32 gameId = 4; // 游戏id
+	optional int32 roomType = 5;// 房间类型
+	optional int32 tableId = 6;// 桌子Id
+	optional int32 winStyle = 7;// 胜利牌型
+	optional int64 winPoints = 8;// 胜利获得金币 
+}
+
+message BigWordBoardRecordVO {
+	repeated CardRecordVO cardRecordVO = 1; // 卡牌记录
+	optional BigWordBoardBigWinRecordVO bigWinRecordVO = 2; // 大胜记录
+}
+
+message BigWordBoardBigWinRecordVO {
+	optional int32 fiveKindsNum = 1; // 五梅个数
+	optional int32 bigTierceNum = 2; // 同花大顺个数
+	optional int32 tierceNum = 3;// 同花顺个数
+	optional int32 fourKindsNum = 4;// 四梅个数
+}
+
+message CardRecordVO {
+	repeated CardVO fCardVOs = 1;// 第一排
+	repeated CardVO sCardVOs = 2;// 第二排
+	optional int64 crdit = 3; // 带入
+	optional int32 bet = 4; // 押注
+	optional int64 wins = 5; //  赢
+	repeated BiBeiRecordVO biBeiRecordVOs = 6; // 比倍记录 
+}
+
+message BiBeiRecordVO {
+	optional int32 type = 1; // 1:半比，2：比倍，3：双比
+	optional int32 bet = 2; // 押注倍率
+	optional int32 guess = 3; // 1:大，2：小
+	optional int32 openNum = 4; //开牌大小
+}
+
+message RoomVO {
+	optional int32 type = 1; // 房间类型
+	optional int32 bet = 2; // 押注
+	optional int32 needPoints = 3; // 需要金币(预留)
+	optional int32 needJade = 4; // 需要钻石
+}
+
+package com.gameabc.bfc.model.bto.player;
+option java_package = "com.gameabc.bfc.model.bto.player";
+option java_outer_classname = "UserProto";
+message UserVO  {
+  optional string userId = 1;
+  optional string userName = 2;
+  optional int64 points = 3;//财富
+  optional int64 vip = 4;//vip等级
+  optional int64 vipPoint = 5;//vip 经验值
+  optional int64 level= 6;// 等级
+  optional int64 levelPoint = 7;// 经验值
+  optional int64 startTime = 8;// 开始玩的时间
+  optional int64 maxWinPoint = 9;// 最大赢的钱
+  optional int64 winTimes = 10;//获利次数
+  optional int64 userDayActiveTime = 11;//完成时间
+  
+  optional int64 jabe=12; //玉 
+  
+  optional float activeRate=13;//活跃领取的倍率
+  
+  optional int64 id=14; //用户的对应我们的ID
+  optional string facebookId=15; //faceBookID
+  
+  optional int32 newPlayerType=16; //新手类弄Id
+  optional string name=17; //name
+  optional int32 editNameNum=18; //编辑名字次数
+}
