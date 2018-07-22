@@ -1,0 +1,19 @@
+syntax = "proto3";
+message Protocol {
+	CilentState clt = 1;
+	ServerState svr = 2;
+	int32 id = 3;
+	int32 err = 4;
+	repeated int64 iv = 5;
+	repeated double dv = 6;
+	repeated bytes bv = 7;	
+}
+message ServerState {
+	int32 time = 1;
+	int32 type = 2;
+	int32 id = 3;
+}
+message CilentState {
+	string id = 1;
+	string token = 2;
+}
