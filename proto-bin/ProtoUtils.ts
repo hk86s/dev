@@ -1,6 +1,9 @@
 
 module net.protovos {
 
+	export function build(name: string, data: any = null): any {
+	}
+
 
     export const TableVO_NAME: string = "TableVO";
 
