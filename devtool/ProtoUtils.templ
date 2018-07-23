@@ -1,6 +1,20 @@
 #<TS>
 module net.protovos {
 
+	/**  */
+    export var creator: any;
+    
+    export function build(name: string, data?: any): any {
+        var factory: any = creator.lookup(name);
+        if (data instanceof ArrayBuffer) {
+            return factory.decode(new Uint8Array(data));
+        }
+        if (data instanceof Uint8Array) {
+            return factory.decode(data);
+        }
+        return factory.create(data);
+    }
+
 ${PROTO_CONST}
 
 ${PROTO_FUNC}
@@ -15,9 +29,8 @@ ${PROTO_INTERFACE}
 #END
 
 #<PROTO_FUNC>
-    export function carte${PROTOVO_NAME}(): ${PROTOVO_NAME} {
-        //return Message.lokkup(${PROTOVO_NAME}_NAME);
-        return <any>null;
+    export function carte${PROTOVO_NAME}(data?: any): ${PROTOVO_NAME} {
+        return build(${PROTOVO_NAME}_NAME, data);
     }
 #END
 
