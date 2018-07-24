@@ -1,8 +1,19 @@
 
 module net.protovos {
 
-	export function build(name: string, data: any = null): any {
-	}
+	/**  */
+    export var creator: any;
+    
+    export function build(name: string, data?: any): any {
+        var factory: any = creator.lookup(name);
+        if (data instanceof ArrayBuffer) {
+            return factory.decode(new Uint8Array(data));
+        }
+        if (data instanceof Uint8Array) {
+            return factory.decode(data);
+        }
+        return factory.create(data);
+    }
 
 
     export const TableVO_NAME: string = "TableVO";
@@ -29,59 +40,48 @@ module net.protovos {
 
 
 
-    export function carteTableVO(): TableVO {
-        //return Message.lokkup(TableVO_NAME);
-        return <any>null;
+    export function carteTableVO(data?: any): TableVO {
+        return build(TableVO_NAME, data);
     }
 
-    export function carteRetainInfoVO(): RetainInfoVO {
-        //return Message.lokkup(RetainInfoVO_NAME);
-        return <any>null;
+    export function carteRetainInfoVO(data?: any): RetainInfoVO {
+        return build(RetainInfoVO_NAME, data);
     }
 
-    export function cartePlayerVO(): PlayerVO {
-        //return Message.lokkup(PlayerVO_NAME);
-        return <any>null;
+    export function cartePlayerVO(data?: any): PlayerVO {
+        return build(PlayerVO_NAME, data);
     }
 
-    export function carteCardVO(): CardVO {
-        //return Message.lokkup(CardVO_NAME);
-        return <any>null;
+    export function carteCardVO(data?: any): CardVO {
+        return build(CardVO_NAME, data);
     }
 
-    export function carteGameBigWinRecordVO(): GameBigWinRecordVO {
-        //return Message.lokkup(GameBigWinRecordVO_NAME);
-        return <any>null;
+    export function carteGameBigWinRecordVO(data?: any): GameBigWinRecordVO {
+        return build(GameBigWinRecordVO_NAME, data);
     }
 
-    export function carteBigWordBoardRecordVO(): BigWordBoardRecordVO {
-        //return Message.lokkup(BigWordBoardRecordVO_NAME);
-        return <any>null;
+    export function carteBigWordBoardRecordVO(data?: any): BigWordBoardRecordVO {
+        return build(BigWordBoardRecordVO_NAME, data);
     }
 
-    export function carteBigWordBoardBigWinRecordVO(): BigWordBoardBigWinRecordVO {
-        //return Message.lokkup(BigWordBoardBigWinRecordVO_NAME);
-        return <any>null;
+    export function carteBigWordBoardBigWinRecordVO(data?: any): BigWordBoardBigWinRecordVO {
+        return build(BigWordBoardBigWinRecordVO_NAME, data);
     }
 
-    export function carteCardRecordVO(): CardRecordVO {
-        //return Message.lokkup(CardRecordVO_NAME);
-        return <any>null;
+    export function carteCardRecordVO(data?: any): CardRecordVO {
+        return build(CardRecordVO_NAME, data);
     }
 
-    export function carteBiBeiRecordVO(): BiBeiRecordVO {
-        //return Message.lokkup(BiBeiRecordVO_NAME);
-        return <any>null;
+    export function carteBiBeiRecordVO(data?: any): BiBeiRecordVO {
+        return build(BiBeiRecordVO_NAME, data);
     }
 
-    export function carteRoomVO(): RoomVO {
-        //return Message.lokkup(RoomVO_NAME);
-        return <any>null;
+    export function carteRoomVO(data?: any): RoomVO {
+        return build(RoomVO_NAME, data);
     }
 
-    export function carteUserVO(): UserVO {
-        //return Message.lokkup(UserVO_NAME);
-        return <any>null;
+    export function carteUserVO(data?: any): UserVO {
+        return build(UserVO_NAME, data);
     }
 
 
@@ -196,7 +196,7 @@ module net.protovos {
     export interface BigWordBoardRecordVO {
         
         /**  卡牌记录 */
-        cardRecordVO: CardRecordVO;
+        cardRecordVO: CardRecordVO[];
 
         /**  大胜记录 */
         bigWinRecordVO: BigWordBoardBigWinRecordVO;
@@ -222,10 +222,10 @@ module net.protovos {
     export interface CardRecordVO {
         
         /**  第一排 */
-        fCardVOs: CardVO;
+        fCardVOs: CardVO[];
 
         /**  第二排 */
-        sCardVOs: CardVO;
+        sCardVOs: CardVO[];
 
         /**  带入 */
         crdit: number;
@@ -237,7 +237,7 @@ module net.protovos {
         wins: number;
 
         /**  比倍记录  */
-        biBeiRecordVOs: BiBeiRecordVO;
+        biBeiRecordVOs: BiBeiRecordVO[];
 
     }
 

@@ -196,6 +196,7 @@ class MyApp {
                 res.mod = fileds[0];
                 res.type = LINE_TYP.PARAM;
                 res.pvar = fileds[1];
+                if (res.mod == PARAM_MOD.REPEATED) res.pvar += "[]";
                 res.name = fileds[2];
                 res.id = parseInt(fileds[4]);
                 break;
