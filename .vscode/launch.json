@@ -8,10 +8,10 @@
             "type": "node",
             "request": "launch",
             "name": "app",
-            "program": "${workspaceRoot}/src/app.ts",
+            "program": "${workspaceRoot}/src/Obfuscated.ts",
             "cwd": "${workspaceFolder}",
             "outFiles": [
-                "${workspaceFolder}/**/*.js"
+                "${workspaceFolder}/bin/Obfuscated.js"
             ]
         }
     ]

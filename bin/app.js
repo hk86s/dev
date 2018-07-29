@@ -1,22 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs = require("fs");
-var MyApp = /** @class */ (function () {
-    function MyApp() {
-    }
-    MyApp.run = function () {
+const fs = require("fs");
+class MyApp {
+    static run() {
         var confUrl = "./devtool/config.json";
         MyApp.conf = JSON.parse(fs.readFileSync(confUrl).toString());
         MyApp.templ = fs.readFileSync(MyApp.conf.proto2ts.tsTemplate).toString();
         MyApp.protofileData = "";
         MyApp.tsfileData = "";
-        fs.readdir(MyApp.conf.proto2ts.protoPath, function (err, files) {
+        fs.readdir(MyApp.conf.proto2ts.protoPath, (err, files) => {
             for (var i = 0; i < files.length; ++i) {
                 if (files[i].lastIndexOf("proto") != files[i].length - 5)
                     continue;
                 MyApp.protofileData += fs.readFileSync(MyApp.conf.proto2ts.protoPath + "/" + files[i]).toString();
             }
-            fs.writeFile(MyApp.conf.proto2ts.layaPath, MyApp.protofileData, function (err) {
+            fs.writeFile(MyApp.conf.proto2ts.layaPath, MyApp.protofileData, (err) => {
                 if (err == null)
                     console.log("proto complete");
                 else
@@ -25,15 +23,15 @@ var MyApp = /** @class */ (function () {
             var filestr = MyApp.protofileData.replace(/\t/g, "");
             var mess = MyApp.parse(filestr.split("\r\n"));
             var tsFile = MyApp.wirteTs(MyApp.templ, mess);
-            fs.writeFile(MyApp.conf.proto2ts.tsPath, tsFile, function (err) {
+            fs.writeFile(MyApp.conf.proto2ts.tsPath, tsFile, (err) => {
                 if (err == null)
                     console.log("ts complete");
                 else
                     console.log(err.message);
             });
         });
-    };
-    MyApp.wirteTs = function (templ, mess) {
+    }
+    static wirteTs(templ, mess) {
         var fileStr = MyApp.getChunk(templ, "#<TS>", "END");
         var PROTO_CONST = MyApp.getChunk(templ, "#<PROTO_CONST>", "END");
         var PROTO_FUNC = MyApp.getChunk(templ, "#<PROTO_FUNC>", "END");
@@ -65,21 +63,18 @@ var MyApp = /** @class */ (function () {
         fileStr = fileStr.replace("${PROTO_FUNC}", "");
         fileStr = fileStr.replace("${PROTO_INTERFACE}", "");
         return fileStr;
-    };
-    MyApp.addToIdx = function (target, str, idx) {
+    }
+    static addToIdx(target, str, idx) {
         return target.substr(0, idx) + str + target.substr(idx);
-    };
-    MyApp.prototype2tstype = function (type) {
+    }
+    static prototype2tstype(type) {
         if (type.indexOf("int") != -1)
             return "number";
         if (type == 'float')
             return "number";
         return type;
-    };
-    MyApp.getChunk = function (str, left, right) {
-        if (str === void 0) { str = ""; }
-        if (left === void 0) { left = "{"; }
-        if (right === void 0) { right = "}"; }
+    }
+    static getChunk(str = "", left = "{", right = "}") {
         var idx = str.indexOf(left);
         if (idx == -1) {
             console.log("less " + left);
@@ -117,8 +112,8 @@ var MyApp = /** @class */ (function () {
                 return str.substring(fristIdx + left.length, idx - 1);
             }
         }
-    };
-    MyApp.parse = function (lineArr) {
+    }
+    static parse(lineArr) {
         var len = lineArr.length;
         var cache_pack;
         var cache_help;
@@ -165,8 +160,8 @@ var MyApp = /** @class */ (function () {
             }
         }
         return res_mess;
-    };
-    MyApp.checkLine = function (line) {
+    }
+    static checkLine(line) {
         var res = new LineRes();
         var ci = line.indexOf("//");
         if (ci != -1) {
@@ -186,6 +181,8 @@ var MyApp = /** @class */ (function () {
                 res.mod = fileds[0];
                 res.type = LINE_TYP.PARAM;
                 res.pvar = fileds[1];
+                if (res.mod == PARAM_MOD.REPEATED)
+                    res.pvar += "[]";
                 res.name = fileds[2];
                 res.id = parseInt(fileds[4]);
                 break;
@@ -206,26 +203,21 @@ var MyApp = /** @class */ (function () {
                 break;
         }
         return res;
-    };
-    MyApp.fixEqu = function (str) {
+    }
+    static fixEqu(str) {
         var arr = str.split("=");
         if (arr.length < 2)
             return str;
         return arr[0].replace(/(^\s*)/g, "") + " = " + arr[1].replace(/(\s*$)/g, "");
-    };
-    return MyApp;
-}());
-var Message = /** @class */ (function () {
-    function Message() {
+    }
+}
+class Message {
+    constructor() {
         this.data = [];
     }
-    return Message;
-}());
-var LineRes = /** @class */ (function () {
-    function LineRes() {
-    }
-    return LineRes;
-}());
+}
+class LineRes {
+}
 var LINE_TYP;
 (function (LINE_TYP) {
     LINE_TYP[LINE_TYP["NONE"] = 0] = "NONE";
@@ -237,22 +229,16 @@ var LINE_TYP;
     LINE_TYP[LINE_TYP["HELPEND"] = 6] = "HELPEND";
     LINE_TYP[LINE_TYP["HELP"] = 7] = "HELP";
 })(LINE_TYP || (LINE_TYP = {}));
-var PARAM_MOD = /** @class */ (function () {
-    function PARAM_MOD() {
-    }
-    PARAM_MOD.REQUIRED = "required";
-    PARAM_MOD.OPTIONAL = "optional";
-    PARAM_MOD.REPEATED = "repeated";
-    return PARAM_MOD;
-}());
-var LINE_HEAD = /** @class */ (function () {
-    function LINE_HEAD() {
-    }
-    LINE_HEAD.PACKAGE = "package";
-    LINE_HEAD.MESSAGE = "message";
-    LINE_HEAD.START = "{";
-    LINE_HEAD.END = "}";
-    return LINE_HEAD;
-}());
-MyApp.run();
+class PARAM_MOD {
+}
+PARAM_MOD.REQUIRED = "required";
+PARAM_MOD.OPTIONAL = "optional";
+PARAM_MOD.REPEATED = "repeated";
+class LINE_HEAD {
+}
+LINE_HEAD.PACKAGE = "package";
+LINE_HEAD.MESSAGE = "message";
+LINE_HEAD.START = "{";
+LINE_HEAD.END = "}";
+//MyApp.run(); 
 //# sourceMappingURL=app.js.map

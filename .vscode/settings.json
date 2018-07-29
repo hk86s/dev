@@ -1,0 +1,9 @@
+{
+    "search.exclude": {
+        "**/src": true,
+        "**/proto-bin": true,
+        "**/node_modules": true,
+        "**/protocol-design": true,
+        "**/devtool": true
+    }
+}
